@@ -66,12 +66,11 @@ function clearData() {
 
 
 // read
-function showData()
-{
+function showData() {
     let table = '';
-    for (let i = 0; i < dataPro.length;i++){
+    for (let i = 0; i < dataPro.length; i++) {
         table +=
-        `
+            `
                             <tr>
                         <td>${i}</td>
                         <td>${dataPro[i].title}</td>
@@ -87,8 +86,17 @@ function showData()
         `
         // console.log(table)
     }
+
     document.getElementById('tbody').innerHTML = table;
- }
+    let btnDelete = document.getElementById('deleteAll')
+    if (dataPro.length > 0) {
+        btnDelete.innerHTML = `
+         <button onclick="deleteAll()">Delete All</button>
+        `
+    } else {
+        btnDelete.innerHTML = '';
+    }
+                           }
 showData()
 
 // delete
@@ -96,6 +104,12 @@ function deleteData(i) {
     // console.log(i)
     dataPro.splice(i, 1);
     localStorage.product = JSON.stringify(dataPro);
+    showData()
+ }
+
+function deleteAll() {
+    localStorage.clear();
+    dataPro.splice(0)
     showData()
 
  }
