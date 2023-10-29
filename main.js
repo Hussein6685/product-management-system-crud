@@ -46,7 +46,19 @@ submit.onclick = function () {
     }
     dataPro.push(newPro);
     localStorage.setItem('product',  JSON.stringify(dataPro))
-    console.log(newPro);
+    // console.log(newPro);
+    clearData()
 }
 
 
+// clear inputs
+function clearData() {
+    title.value = '';
+    price.value = '';
+    taxes.value = '';
+    ads.value = '';
+    discount.value = '';
+    total.innerHTML = '';
+    count.value = '';
+    category.value = '';
+}
