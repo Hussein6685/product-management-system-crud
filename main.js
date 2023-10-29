@@ -8,6 +8,11 @@ let count  = document.getElementById('count');
 let category  = document.getElementById('category');
 let submit = document.getElementById('submit');
 
+
+
+let mood = 'create'
+let tmp;
+
 // console.log(title, price, taxes, ads, discount, total, count, category, submit)
 // get total
 function getTotal() {
@@ -44,13 +49,21 @@ submit.onclick = function () {
         count:count.value,
         category:category.value,
     }
-    if (newPro.count > 1) {
+    if (mood === 'create') {
+      if (newPro.count > 1) {
         for (let i = 0; i < newPro.count; i++){
             dataPro.push(newPro);
         }
     } else {
          dataPro.push(newPro);
     }
+    } else {
+        dataPro[tmp] = newPro;
+        mood = 'create';
+        submit.innerHTML = 'create';
+        count.style.display = 'block'
+    }
+
     dataPro.push(newPro);
     localStorage.setItem('product',  JSON.stringify(dataPro))
     // console.log(newPro);
@@ -74,6 +87,7 @@ function clearData() {
 
 // read
 function showData() {
+    getTotal();
     let table = '';
     for (let i = 0; i < dataPro.length; i++) {
         table +=
@@ -87,7 +101,7 @@ function showData() {
                         <td>${dataPro[i].discount}</td>
                         <td>${dataPro[i].total}</td>
                         <td>${dataPro[i].category}</td>
-                        <td><button id="update">update</button></td>
+                        <td><button onclick="updateData(${i})" id="update">update</button></td>
                         <td><button onclick="deleteData(${i})" id="delete">delete</button></td>
                     </tr>
         `
@@ -122,3 +136,24 @@ function deleteAll() {
  }
 
 //  count
+
+
+// update
+function updateData(i) {
+    // console.log(i)
+    title.value = dataPro[i].title;
+    price.value = dataPro[i].price;
+    taxes.value = dataPro[i].taxes;
+    ads.value = dataPro[i].ads;
+    discount.value = dataPro[i].discount;
+    getTotal()
+    count.style.display = 'none';
+    category.value = dataPro[i].category;
+    submit.innerHTML = 'Update';
+    mood = 'update'
+    tmp = i;
+    scroll({
+        top:0,
+        behavior:'smooth',
+    })
+}
